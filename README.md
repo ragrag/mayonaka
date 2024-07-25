@@ -8,7 +8,7 @@ Art by [KyasarinHagaren](https://www.reddit.com/user/KyasarinHagaren)
 
 ## About
 
-**mayonaka** _(ma-yo-na-ka)_ is a flexible folder builder for javascript runtimes. It provides a very minimal yet fluent builder interface on top of the familiar node:fs API and concurrency control
+**mayonaka** _(ma-yo-na-ka)_ is a flexible folder builder for javascript runtimes. It provides a very minimal yet fluent builder interface on top of the familiar node:fs API with concurrency control
 
 ## Example
 
