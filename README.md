@@ -28,6 +28,7 @@ Creating a similar directory with mayonaka
 
 ```typescript
 import { Mayonaka } from "mayonaka";
+import { Readable } from "node:stream";
 
 await new Mayonaka(__dirname)
   .addFolder("foo")
