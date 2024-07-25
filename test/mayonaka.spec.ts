@@ -79,7 +79,7 @@ describe('MayonakaSync', () => {
     });
 
     it('should create directories and files correctly', async () => {
-        await new MayonakaSync(testDir)
+        new MayonakaSync(testDir)
             .addFolder('foo')
             .addFolder('bar', bar => {
                 bar.addFolder('qux', qux => {
