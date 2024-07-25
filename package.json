@@ -1,0 +1,54 @@
+{
+  "name": "mayonaka",
+  "version": "1.0.0",
+  "author": "ragrag https://github.com/ragrag",
+  "description": "A flexible folder and file builder",
+  "engines": {
+    "pnpm": ">=9",
+    "node": ">=14"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": "https://github.com/ragrag/mayonaka",
+  "keywords": [
+    "file",
+    "folder",
+    "folder-builder",
+    "file-builder"
+  ],
+  "scripts": {
+    "prepare": "tshy",
+    "test": "vitest run test"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@types/node": "^20.14.12",
+    "tshy": "^3.0.2",
+    "vitest": "^2.0.4"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
+}
