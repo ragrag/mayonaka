@@ -17,7 +17,8 @@ export type MayonakaSyncOptions = {
     maxConcurrency?: number;
 };
 
-export type Folder = Pick<Mayonaka, 'addFolder' | 'addFile'> | Pick<MayonakaSync, 'addFolder' | 'addFile'>;
+export type Folder = Pick<Mayonaka, 'addFolder' | 'addFile'>;
+export type SyncFolder = Pick<MayonakaSync, 'addFolder' | 'addFile'>;
 
 export type AddFolderOpts = {
     mode?: Mode;
@@ -149,9 +150,9 @@ export class MayonakaSync {
         this.commandGraph = [];
     }
 
-    public addFolder(name: string, folder: (folder: Folder) => void, opts?: AddFolderOpts): this;
+    public addFolder(name: string, folder: (folder: SyncFolder) => void, opts?: AddFolderOpts): this;
     public addFolder(name: string, opts?: AddFolderOpts): this;
-    public addFolder(name: string, folderOrOpts?: ((folder: Folder) => void) | AddFolderOpts, opts?: AddFolderOpts): this {
+    public addFolder(name: string, folderOrOpts?: ((folder: SyncFolder) => void) | AddFolderOpts, opts?: AddFolderOpts): this {
         const folderPath = path.join(this.path, name);
 
         if (typeof folderOrOpts === 'function') {
