@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterEach, expect } from 'vitest';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Readable } from 'node:stream';
-import { Mayonaka } from '../src/index.js';
+import { Mayonaka, MayonakaSync } from '../src/index.js';
 
 const testDir = path.join(__dirname, 'test-dir');
 
@@ -63,6 +63,52 @@ describe('Mayonaka', () => {
             expect(bufferContent).toBe('mayonaka');
             expect(stringContent).toBe('mayonaka');
             expect(iterableContent).toBe('mayonaka');
+        } catch (err) {
+            throw new Error(`Test failed: ${err.message}`);
+        }
+    });
+});
+
+describe('MayonakaSync', () => {
+    beforeEach(async () => {
+        await fs.rm(testDir, { recursive: true, force: true }).catch();
+    });
+
+    afterEach(async () => {
+        await fs.rm(testDir, { recursive: true, force: true }).catch();
+    });
+
+    it('should create directories and files correctly', async () => {
+        await new MayonakaSync(testDir)
+            .addFolder('foo')
+            .addFolder('bar', bar => {
+                bar.addFolder('qux', qux => {
+                    qux.addFolder('quux')
+                        .addFile('buffer.txt', () => Buffer.from('mayonaka'), 'utf-8')
+                        .addFile('string.txt', () => 'mayonaka', 'utf-8');
+                });
+            })
+            .addFolder('baz')
+            .build();
+
+        try {
+            await fs.access(path.join(testDir, 'foo'));
+            await fs.access(path.join(testDir, 'bar'));
+            await fs.access(path.join(testDir, 'baz'));
+            await fs.access(path.join(testDir, 'bar', 'qux'));
+            await fs.access(path.join(testDir, 'bar', 'qux', 'quux'));
+
+            const buffer = path.join(testDir, 'bar', 'qux', 'buffer.txt');
+            const string = path.join(testDir, 'bar', 'qux', 'string.txt');
+
+            await fs.access(buffer);
+            await fs.access(string);
+
+            const bufferContent = await fs.readFile(buffer, 'utf-8');
+            const stringContent = await fs.readFile(string, 'utf-8');
+
+            expect(bufferContent).toBe('mayonaka');
+            expect(stringContent).toBe('mayonaka');
         } catch (err) {
             throw new Error(`Test failed: ${err.message}`);
         }

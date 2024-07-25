@@ -1,3 +1,5 @@
+export type MayonakaSyncCommand<T> = () => T;
+
 export class MayonakaCommand<T> {
     executor: (resolve: (value: T) => void, reject: (reason?: any) => void) => void;
     promise: Promise<T> | null;
