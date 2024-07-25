@@ -37,11 +37,7 @@ await new Mayonaka(__dirname)
     bar.addFolder("qux", (qux) => {
       qux
         .addFolder("quux")
-        .addFile(
-          "readable.txt",
-          async () => Readable.from(["mayonaka"]),
-          "utf-8"
-        )
+        .addFile("readable.txt",async () => Readable.from(["mayonaka"]), "utf-8")
         .addFile("buffer.txt", async () => Buffer.from("mayonaka"), "utf-8")
         .addFile("string.txt", async () => "mayonaka", "utf-8")
         .addFile("iterable.txt", async () => iterable(), "utf-8");
