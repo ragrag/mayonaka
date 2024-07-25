@@ -2,7 +2,7 @@
   "name": "mayonaka",
   "version": "1.0.0",
   "author": "ragrag https://github.com/ragrag",
-  "description": "A flexible folder and file builder",
+  "description": "A fluent folder builder for javascript runtimes",
   "engines": {
     "pnpm": ">=9",
     "node": ">=14"
