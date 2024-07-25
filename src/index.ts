@@ -1,4 +1,4 @@
-import type { Mode, WriteFileOptions } from 'node:fs';
+import type { MakeDirectoryOptions, Mode, WriteFileOptions } from 'node:fs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -14,17 +14,13 @@ export type MayonakaOptions = {
 export type MayonakaSyncOptions = {
     dirMode?: Mode;
     fileMode?: Mode;
-    maxConcurrency?: number;
 };
 
 export type Folder = Pick<Mayonaka, 'addFolder' | 'addFile'>;
 export type SyncFolder = Pick<MayonakaSync, 'addFolder' | 'addFile'>;
 
-export type AddFolderOpts = {
-    mode?: Mode;
-};
-
-export type AddFileOpts = WriteFileOptions;
+export type AddFolderOptions = Omit<MakeDirectoryOptions, 'recursive'>;
+export type AddFileOptionss = WriteFileOptions;
 
 export type FileData = string | NodeJS.ArrayBufferView | Iterable<string | NodeJS.ArrayBufferView> | AsyncIterable<string | NodeJS.ArrayBufferView> | Stream;
 export type SyncFileData = string | NodeJS.ArrayBufferView;
@@ -47,9 +43,9 @@ export class Mayonaka {
         this.commandGraph = [];
     }
 
-    public addFolder(name: string, folder: (folder: Folder) => void, opts?: AddFolderOpts): this;
-    public addFolder(name: string, opts?: AddFolderOpts): this;
-    public addFolder(name: string, folderOrOpts?: ((folder: Folder) => void) | AddFolderOpts, opts?: AddFolderOpts): this {
+    public addFolder(name: string, folder: (folder: Folder) => void, opts?: AddFolderOptions): this;
+    public addFolder(name: string, opts?: AddFolderOptions): this;
+    public addFolder(name: string, folderOrOpts?: ((folder: Folder) => void) | AddFolderOptions, opts?: AddFolderOptions): this {
         const folderPath = path.join(this.path, name);
 
         if (typeof folderOrOpts === 'function') {
@@ -69,7 +65,7 @@ export class Mayonaka {
         return this;
     }
 
-    public addFile(name: string, data: () => Promise<FileData>, opts?: AddFileOpts): this {
+    public addFile(name: string, data: () => Promise<FileData>, opts?: AddFileOptionss): this {
         const filePath = path.join(this.path, name);
 
         if (opts && typeof opts === 'object') {
@@ -106,7 +102,7 @@ export class Mayonaka {
         this.commandGraph = [];
     }
 
-    private mkDirCommand(path: string, opts?: AddFolderOpts): MayonakaCommand<void> {
+    private mkDirCommand(path: string, opts?: AddFolderOptions): MayonakaCommand<void> {
         return new MayonakaCommand(async (resolve, reject) => {
             try {
                 await mkdir(path, { recursive: true, mode: opts?.mode ?? this.opts.dirMode });
@@ -122,7 +118,7 @@ export class Mayonaka {
         data: () => Promise<
             string | NodeJS.ArrayBufferView | Iterable<string | NodeJS.ArrayBufferView> | AsyncIterable<string | NodeJS.ArrayBufferView> | Stream
         >,
-        opts?: AddFileOpts,
+        opts?: AddFileOptionss,
     ): MayonakaCommand<void> {
         return new MayonakaCommand(async (resolve, reject) => {
             try {
@@ -150,9 +146,9 @@ export class MayonakaSync {
         this.commandGraph = [];
     }
 
-    public addFolder(name: string, folder: (folder: SyncFolder) => void, opts?: AddFolderOpts): this;
-    public addFolder(name: string, opts?: AddFolderOpts): this;
-    public addFolder(name: string, folderOrOpts?: ((folder: SyncFolder) => void) | AddFolderOpts, opts?: AddFolderOpts): this {
+    public addFolder(name: string, folder: (folder: SyncFolder) => void, opts?: AddFolderOptions): this;
+    public addFolder(name: string, opts?: AddFolderOptions): this;
+    public addFolder(name: string, folderOrOpts?: ((folder: SyncFolder) => void) | AddFolderOptions, opts?: AddFolderOptions): this {
         const folderPath = path.join(this.path, name);
 
         if (typeof folderOrOpts === 'function') {
@@ -172,7 +168,7 @@ export class MayonakaSync {
         return this;
     }
 
-    public addFile(name: string, data: () => SyncFileData, opts?: AddFileOpts): this {
+    public addFile(name: string, data: () => SyncFileData, opts?: AddFileOptionss): this {
         const filePath = path.join(this.path, name);
 
         if (opts && typeof opts === 'object') {
@@ -200,13 +196,13 @@ export class MayonakaSync {
         this.commandGraph = [];
     }
 
-    private mkDirCommand(path: string, opts?: AddFolderOpts): MayonakaSyncCommand<void> {
+    private mkDirCommand(path: string, opts?: AddFolderOptions): MayonakaSyncCommand<void> {
         return () => {
             mkdirSync(path, { recursive: true, mode: opts?.mode });
         };
     }
 
-    private writeFileCommand(path: string, data: () => SyncFileData, opts?: AddFileOpts): MayonakaSyncCommand<void> {
+    private writeFileCommand(path: string, data: () => SyncFileData, opts?: AddFileOptionss): MayonakaSyncCommand<void> {
         return () => {
             const fileData = data();
             writeFileSync(path, fileData, opts);
