@@ -1,6 +1,6 @@
 <div align="center">
 
-![aimer-after-dark](https://github.com/ragrag/envoy/assets/35541698/ccb16f5a-57bd-4703-ba0a-3d0c46cd236c)
+![aimer-after-dark](https://github.com/user-attachments/assets/1d00dcf1-f760-4741-bdfc-1af010a05b68)
 Art by [KyasarinHagaren](https://www.reddit.com/user/KyasarinHagaren)
 
 </div>
