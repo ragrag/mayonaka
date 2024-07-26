@@ -1,9 +1,5 @@
 **mayonaka** • **Docs**
 
-***
-
-**mayonaka** • **Docs**
-
 ---
 
 <div align="center">
