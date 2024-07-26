@@ -16,8 +16,8 @@ export type MayonakaSyncOptions = {
     fileMode?: Mode;
 };
 
-export type Folder = Pick<Mayonaka, 'addFolder' | 'addFile'>;
-export type SyncFolder = Pick<MayonakaSync, 'addFolder' | 'addFile'>;
+export type Folder = Pick<Mayonaka<true>, 'addFolder' | 'addFile'>;
+export type SyncFolder = Pick<MayonakaSync<true>, 'addFolder' | 'addFile'>;
 
 export type AddFolderOptions = Omit<MakeDirectoryOptions, 'recursive'>;
 export type AddFileOptionss = WriteFileOptions;
@@ -28,7 +28,7 @@ export type SyncFileData = string | NodeJS.ArrayBufferView;
 type MayonakaCommandNode = { command: MayonakaCommand<void>; children: MayonakaCommandNode[] };
 type MayonakaSyncCommandNode = { command: MayonakaSyncCommand<void>; children: MayonakaSyncCommandNode[] };
 
-export class Mayonaka {
+export class Mayonaka<TIsSubFolder = unknown> {
     private path: string;
     private opts: MayonakaOptions;
     private commandGraph: MayonakaCommandNode[];
@@ -43,9 +43,13 @@ export class Mayonaka {
         this.commandGraph = [];
     }
 
-    public addFolder(name: string, folder: (folder: Folder) => void, opts?: AddFolderOptions): this;
-    public addFolder(name: string, opts?: AddFolderOptions): this;
-    public addFolder(name: string, folderOrOpts?: ((folder: Folder) => void) | AddFolderOptions, opts?: AddFolderOptions): this {
+    public addFolder(name: string, folder: (folder: Folder) => void, opts?: AddFolderOptions): TIsSubFolder extends true ? Folder : this;
+    public addFolder(name: string, opts?: AddFolderOptions): TIsSubFolder extends true ? Folder : this;
+    public addFolder(
+        name: string,
+        folderOrOpts?: ((folder: Folder) => void) | AddFolderOptions,
+        opts?: AddFolderOptions,
+    ): TIsSubFolder extends true ? Folder : this {
         const folderPath = path.join(this.path, name);
 
         if (typeof folderOrOpts === 'function') {
@@ -63,10 +67,10 @@ export class Mayonaka {
             this.commandGraph.push({ command, children: [] });
         }
 
-        return this;
+        return this as any;
     }
 
-    public addFile(name: string, data: () => Promise<FileData>, opts?: AddFileOptionss): this {
+    public addFile(name: string, data: () => Promise<FileData>, opts?: AddFileOptionss): TIsSubFolder extends true ? Folder : this {
         const filePath = path.join(this.path, name);
 
         if (opts && typeof opts === 'object') {
@@ -75,7 +79,7 @@ export class Mayonaka {
 
         this.commandGraph.push({ command: this.writeFileCommand(filePath, data, opts), children: [] });
 
-        return this;
+        return this as any;
     }
 
     public async build() {
@@ -133,7 +137,7 @@ export class Mayonaka {
     }
 }
 
-export class MayonakaSync {
+export class MayonakaSync<TIsSubFolder = unknown> {
     private path: string;
     private opts: MayonakaSyncOptions;
     private commandGraph: MayonakaSyncCommandNode[];
@@ -147,9 +151,13 @@ export class MayonakaSync {
         this.commandGraph = [];
     }
 
-    public addFolder(name: string, folder: (folder: SyncFolder) => void, opts?: AddFolderOptions): this;
-    public addFolder(name: string, opts?: AddFolderOptions): this;
-    public addFolder(name: string, folderOrOpts?: ((folder: SyncFolder) => void) | AddFolderOptions, opts?: AddFolderOptions): this {
+    public addFolder(name: string, folder: (folder: SyncFolder) => void, opts?: AddFolderOptions): TIsSubFolder extends true ? SyncFolder : this;
+    public addFolder(name: string, opts?: AddFolderOptions): TIsSubFolder extends true ? SyncFolder : this;
+    public addFolder(
+        name: string,
+        folderOrOpts?: ((folder: SyncFolder) => void) | AddFolderOptions,
+        opts?: AddFolderOptions,
+    ): TIsSubFolder extends true ? SyncFolder : this {
         const folderPath = path.join(this.path, name);
 
         if (typeof folderOrOpts === 'function') {
@@ -167,10 +175,10 @@ export class MayonakaSync {
             this.commandGraph.push({ command, children: [] });
         }
 
-        return this;
+        return this as any;
     }
 
-    public addFile(name: string, data: () => SyncFileData, opts?: AddFileOptionss): this {
+    public addFile(name: string, data: () => SyncFileData, opts?: AddFileOptionss): TIsSubFolder extends true ? SyncFolder : this {
         const filePath = path.join(this.path, name);
 
         if (opts && typeof opts === 'object') {
@@ -179,7 +187,7 @@ export class MayonakaSync {
 
         this.commandGraph.push({ command: this.writeFileCommand(filePath, data, opts), children: [] });
 
-        return this;
+        return this as any;
     }
 
     public build() {
