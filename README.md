@@ -2,6 +2,8 @@
 
 <img src="https://github.com/user-attachments/assets/1d00dcf1-f760-4741-bdfc-1af010a05b68" alt="aimer-after-dark" height="300">
 
+Art by [KyasarinHagaren](docs/https://www.reddit.com/user/KyasarinHagaren)
+
 </div>
 
 ## About
