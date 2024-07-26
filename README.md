@@ -12,9 +12,15 @@ Art by [KyasarinHagaren](docs/https://www.reddit.com/user/KyasarinHagaren)
 
 ## API Reference: [https://ragrag.github.io/mayonaka](https://ragrag.github.io/mayonaka)
 
-## Example
+### Installing
 
-Creating a similar directory with mayonaka
+```base
+npm install mayonaka
+```
+
+### Examples
+
+#### Creating a similar directory with mayonaka
 
 ```plaintext
 .
@@ -60,4 +66,39 @@ function* iterable() {
     yield str;
   }
 }
+```
+
+---
+
+#### Concurrency control
+
+```typescript
+import { Mayonaka } from "mayonaka";
+
+await new Mayonaka(__dirname, { maxConcurrency: 50 })
+  .addFolder("foo")
+  .addFolder("bar", (bar) => {
+    for (let i = 0; i < 1000; i++) {
+      bar.addFile(`${i}.txt`, async () => expensive(), "utf-8");
+    }
+  })
+  .build();
+```
+
+---
+
+#### Access permissions
+
+```typescript
+import { MayonakaSync } from "mayonaka";
+
+// global access permissions
+await new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
+  // local access permissions, overriding global permissions
+  .addFolder("foo", { mode: 0o777 })
+  .addFolder("bar", (bar) => {
+    bar.addFile("mayonaka.txt", () => "mayonaka 🐶", "utf-8");
+  })
+  .addFile("baz.txt", () => "baz", "utf-8", { mode: 0o777 })
+  .build();
 ```
