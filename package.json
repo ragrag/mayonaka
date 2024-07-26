@@ -19,13 +19,16 @@
   ],
   "scripts": {
     "prepare": "tshy",
-    "test": "vitest run test"
+    "test": "vitest run test",
+    "docs:gen": "typedoc --plugin typedoc-plugin-markdown --out ./docs src/index.ts"
   },
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@types/node": "^20.14.12",
     "tshy": "^3.0.2",
+    "typedoc": "^0.26.5",
+    "typedoc-plugin-markdown": "^4.2.3",
     "vitest": "^2.0.4"
   },
   "type": "module",
