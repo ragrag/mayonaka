@@ -8,7 +8,7 @@ Art by [KyasarinHagaren](docs/https://www.reddit.com/user/KyasarinHagaren)
 
 ## About
 
-**mayonaka** _(ma-yo-na-ka)_ is a flexible folder builder for javascript runtimes. It provides a very minimal yet fluent builder interface on top of the familiar node:fs API with concurrency control
+**mayonaka 🌃** _(ma-yo-na-ka)_ is a flexible folder builder for javascript runtimes. It provides a very minimal yet fluent builder interface on top of the familiar node:fs API with concurrency control
 
 ## API Reference: [https://ragrag.github.io/mayonaka](https://ragrag.github.io/mayonaka)
 
@@ -97,7 +97,7 @@ new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
   // local access permissions, overriding global permissions
   .addFolder("foo", { mode: 0o777 })
   .addFolder("bar", (bar) => {
-    bar.addFile("mayonaka.txt", () => "mayonaka 🐶", "utf-8");
+    bar.addFile("mayonaka.txt", () => "mayonaka 🌃", "utf-8");
   })
   .addFile("baz.txt", () => "baz", "utf-8", { mode: 0o777 })
   .build();
