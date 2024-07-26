@@ -10,7 +10,7 @@
 
 <img src="https://github.com/user-attachments/assets/1d00dcf1-f760-4741-bdfc-1af010a05b68" alt="aimer-after-dark" height="300">
 
-Art by [KyasarinHagaren](https://www.reddit.com/user/KyasarinHagaren)
+Art by [KyasarinHagaren](docs/https://www.reddit.com/user/KyasarinHagaren)
 
 </div>
 
@@ -70,19 +70,17 @@ function* iterable() {
 
 ## Classes
 
-- [Mayonaka](docs/Class.Mayonaka.md)
-- [MayonakaSync](docs/Class.MayonakaSync.md)
+- [Mayonaka](_media/Class.Mayonaka.md)
+- [MayonakaFolder](_media/Class.MayonakaFolder.md)
+- [MayonakaSync](_media/Class.MayonakaSync.md)
+- [MayonakaSyncfolder](_media/Class.MayonakaSyncfolder.md)
 
 ## Type Aliases
 
-- [AddFileOptionss](docs/TypeAlias.AddFileOptionss.md)
-- [AddFolderOptions](docs/TypeAlias.AddFolderOptions.md)
-- [FileData](docs/TypeAlias.FileData.md)
-- [Folder](docs/TypeAlias.Folder.md)
-- [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)
-- [MayonakaSyncOptions](docs/TypeAlias.MayonakaSyncOptions.md)
-- [SyncFileData](docs/TypeAlias.SyncFileData.md)
-- [SyncFolder](docs/TypeAlias.SyncFolder.md)
+- [FileData](_media/TypeAlias.FileData.md)
+- [MayonakaOptions](_media/TypeAlias.MayonakaOptions.md)
+- [MayonakaSyncOptions](_media/TypeAlias.MayonakaSyncOptions.md)
+- [SyncFileData](_media/TypeAlias.SyncFileData.md)
 
 ## Classes
 

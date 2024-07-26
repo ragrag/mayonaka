@@ -6,7 +6,7 @@
 
 <img src="https://github.com/user-attachments/assets/1d00dcf1-f760-4741-bdfc-1af010a05b68" alt="aimer-after-dark" height="300">
 
-Art by [KyasarinHagaren](https://www.reddit.com/user/KyasarinHagaren)
+Art by [KyasarinHagaren](docs/https://www.reddit.com/user/KyasarinHagaren)
 
 </div>
 
@@ -63,22 +63,6 @@ function* iterable() {
   }
 }
 ```
-
-## Classes
-
-- [Mayonaka](docs/Class.Mayonaka.md)
-- [MayonakaSync](docs/Class.MayonakaSync.md)
-
-## Type Aliases
-
-- [AddFileOptionss](docs/TypeAlias.AddFileOptionss.md)
-- [AddFolderOptions](docs/TypeAlias.AddFolderOptions.md)
-- [FileData](docs/TypeAlias.FileData.md)
-- [Folder](docs/TypeAlias.Folder.md)
-- [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)
-- [MayonakaSyncOptions](docs/TypeAlias.MayonakaSyncOptions.md)
-- [SyncFileData](docs/TypeAlias.SyncFileData.md)
-- [SyncFolder](docs/TypeAlias.SyncFolder.md)
 
 ## Classes
 
