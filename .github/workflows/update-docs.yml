@@ -1,0 +1,38 @@
+name: Update Mayonaka Docs
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "docs/**"
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v2
+        with:
+          path: lib-repo
+
+      - name: Checkout docs repository
+        uses: actions/checkout@v2
+        with:
+          repository: ragrag/ragrag.github.io
+          path: docs-repo
+          token: ${{ secrets.PAT }}
+
+      - name: Copy docs folder
+        run: |
+          rm -rf docs-repo/mayonaka
+          cp -r lib-repo/docs docs-repo/mayonaka
+
+      - name: Commit and push changes
+        run: |
+          cd docs-repo
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Update mayonaka docs" || echo "No changes to commit"
+          git push
