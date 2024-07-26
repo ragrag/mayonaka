@@ -10,6 +10,8 @@ Art by [KyasarinHagaren](docs/https://www.reddit.com/user/KyasarinHagaren)
 
 **mayonaka** _(ma-yo-na-ka)_ is a flexible folder builder for javascript runtimes. It provides a very minimal yet fluent builder interface on top of the familiar node:fs API with concurrency control
 
+## API Reference: [https://ragrag.github.io/mayonaka](https://ragrag.github.io/mayonaka)
+
 ## Example
 
 Creating a similar directory with mayonaka
@@ -59,19 +61,3 @@ function* iterable() {
   }
 }
 ```
-
-## API Reference
-
-### Classes
-
-- [Mayonaka](docs/Class.Mayonaka.md)
-- [MayonakaFolder](docs/Class.MayonakaFolder.md)
-- [MayonakaSync](docs/Class.MayonakaSync.md)
-- [MayonakaSyncfolder](docs/Class.MayonakaSyncfolder.md)
-
-### Type Aliases
-
-- [FileData](docs/TypeAlias.FileData.md)
-- [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)
-- [MayonakaSyncOptions](docs/TypeAlias.MayonakaSyncOptions.md)
-- [SyncFileData](docs/TypeAlias.SyncFileData.md)
