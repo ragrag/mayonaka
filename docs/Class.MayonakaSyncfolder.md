@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[mayonaka-sync.ts:20](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L20)
+[mayonaka-sync.ts:20](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L20)
 
 ## Properties
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[mayonaka-sync.ts:18](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L18)
+[mayonaka-sync.ts:18](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L18)
 
 ***
 
@@ -60,7 +60,7 @@
 
 #### Defined in
 
-[mayonaka-sync.ts:17](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L17)
+[mayonaka-sync.ts:17](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L17)
 
 ***
 
@@ -74,7 +74,7 @@
 
 #### Defined in
 
-[mayonaka-sync.ts:16](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L16)
+[mayonaka-sync.ts:16](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L16)
 
 ## Methods
 
@@ -100,7 +100,7 @@
 
 #### Defined in
 
-[mayonaka-sync.ts:52](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L52)
+[mayonaka-sync.ts:52](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L52)
 
 ***
 
@@ -128,7 +128,7 @@
 
 ##### Defined in
 
-[mayonaka-sync.ts:29](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L29)
+[mayonaka-sync.ts:29](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L29)
 
 #### addFolder(name, opts)
 
@@ -150,4 +150,4 @@
 
 ##### Defined in
 
-[mayonaka-sync.ts:30](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L30)
+[mayonaka-sync.ts:30](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L30)

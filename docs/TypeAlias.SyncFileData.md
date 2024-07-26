@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[mayonaka-sync.ts:11](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka-sync.ts#L11)
+[mayonaka-sync.ts:11](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka-sync.ts#L11)

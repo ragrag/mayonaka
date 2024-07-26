@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[mayonaka.ts:22](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L22)
+[mayonaka.ts:22](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L22)
 
 ## Properties
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[mayonaka.ts:20](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L20)
+[mayonaka.ts:20](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L20)
 
 ***
 
@@ -60,7 +60,7 @@
 
 #### Defined in
 
-[mayonaka.ts:19](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L19)
+[mayonaka.ts:19](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L19)
 
 ***
 
@@ -74,7 +74,7 @@
 
 #### Defined in
 
-[mayonaka.ts:18](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L18)
+[mayonaka.ts:18](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L18)
 
 ## Methods
 
@@ -100,7 +100,7 @@
 
 #### Defined in
 
-[mayonaka.ts:55](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L55)
+[mayonaka.ts:55](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L55)
 
 ***
 
@@ -128,7 +128,7 @@
 
 ##### Defined in
 
-[mayonaka.ts:32](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L32)
+[mayonaka.ts:32](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L32)
 
 #### addFolder(name, opts)
 
@@ -150,4 +150,4 @@
 
 ##### Defined in
 
-[mayonaka.ts:33](https://github.com/ragrag/mayonaka/blob/f312b51cd0f2fb638e213ba97aa230bf7c0be53a/src/mayonaka.ts#L33)
+[mayonaka.ts:33](https://github.com/ragrag/mayonaka/blob/c788b6d4c70dc8aa789cfccae1992741260b54a3/src/mayonaka.ts#L33)

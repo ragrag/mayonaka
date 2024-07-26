@@ -64,14 +64,16 @@ function* iterable() {
 }
 ```
 
-## Classes
+## API Reference
+
+### Classes
 
 - [Mayonaka](docs/Class.Mayonaka.md)
 - [MayonakaFolder](docs/Class.MayonakaFolder.md)
 - [MayonakaSync](docs/Class.MayonakaSync.md)
 - [MayonakaSyncfolder](docs/Class.MayonakaSyncfolder.md)
 
-## Type Aliases
+### Type Aliases
 
 - [FileData](docs/TypeAlias.FileData.md)
 - [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)

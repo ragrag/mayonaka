@@ -70,20 +70,6 @@ function* iterable() {
 
 ## Classes
 
-- [Mayonaka](_media/Class.Mayonaka.md)
-- [MayonakaFolder](_media/Class.MayonakaFolder.md)
-- [MayonakaSync](_media/Class.MayonakaSync.md)
-- [MayonakaSyncfolder](_media/Class.MayonakaSyncfolder.md)
-
-## Type Aliases
-
-- [FileData](_media/TypeAlias.FileData.md)
-- [MayonakaOptions](_media/TypeAlias.MayonakaOptions.md)
-- [MayonakaSyncOptions](_media/TypeAlias.MayonakaSyncOptions.md)
-- [SyncFileData](_media/TypeAlias.SyncFileData.md)
-
-## Classes
-
 - [Mayonaka](Class.Mayonaka.md)
 - [MayonakaFolder](Class.MayonakaFolder.md)
 - [MayonakaSync](Class.MayonakaSync.md)
