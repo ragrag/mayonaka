@@ -1,6 +1,6 @@
 {
   "name": "mayonaka",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "ragrag https://github.com/ragrag",
   "description": "A fluent folder builder for javascript runtimes",
   "engines": {
@@ -20,12 +20,13 @@
   "scripts": {
     "prepare": "tshy",
     "test": "vitest run test",
-    "docs:gen": "typedoc --plugin typedoc-plugin-markdown src/index.ts"
+    "docs:gen": "rimraf docs && typedoc --plugin typedoc-plugin-markdown --flattenOutputFiles --mergeReadme src/index.ts"
   },
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@types/node": "^20.14.12",
+    "rimraf": "^6.0.1",
     "tshy": "^3.0.2",
     "typedoc": "^0.26.5",
     "typedoc-plugin-markdown": "^4.2.3",

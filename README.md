@@ -1,3 +1,7 @@
+**mayonaka** • **Docs**
+
+---
+
 <div align="center">
 
 <img src="https://github.com/user-attachments/assets/1d00dcf1-f760-4741-bdfc-1af010a05b68" alt="aimer-after-dark" height="300">
@@ -60,4 +64,32 @@ function* iterable() {
 }
 ```
 
-## [**Documentation**](docs/globals.md)
+## Classes
+
+- [Mayonaka](docs/Class.Mayonaka.md)
+- [MayonakaSync](docs/Class.MayonakaSync.md)
+
+## Type Aliases
+
+- [AddFileOptionss](docs/TypeAlias.AddFileOptionss.md)
+- [AddFolderOptions](docs/TypeAlias.AddFolderOptions.md)
+- [FileData](docs/TypeAlias.FileData.md)
+- [Folder](docs/TypeAlias.Folder.md)
+- [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)
+- [MayonakaSyncOptions](docs/TypeAlias.MayonakaSyncOptions.md)
+- [SyncFileData](docs/TypeAlias.SyncFileData.md)
+- [SyncFolder](docs/TypeAlias.SyncFolder.md)
+
+## Classes
+
+- [Mayonaka](docs/Class.Mayonaka.md)
+- [MayonakaFolder](docs/Class.MayonakaFolder.md)
+- [MayonakaSync](docs/Class.MayonakaSync.md)
+- [MayonakaSyncfolder](docs/Class.MayonakaSyncfolder.md)
+
+## Type Aliases
+
+- [FileData](docs/TypeAlias.FileData.md)
+- [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)
+- [MayonakaSyncOptions](docs/TypeAlias.MayonakaSyncOptions.md)
+- [SyncFileData](docs/TypeAlias.SyncFileData.md)

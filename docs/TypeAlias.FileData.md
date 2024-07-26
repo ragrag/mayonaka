@@ -1,8 +1,8 @@
-[**mayonaka**](../README.md) • **Docs**
+[**mayonaka**](README.md) • **Docs**
 
 ***
 
-[mayonaka](../globals.md) / FileData
+[mayonaka](README.md) / FileData
 
 # Type Alias: FileData
 
@@ -10,4 +10,4 @@
 
 ## Defined in
 
-[index.ts:25](https://github.com/ragrag/mayonaka/blob/a21e7ebab315bcbc9eab5cb5b0fc20e1590ca754/src/index.ts#L25)
+mayonaka.ts:13

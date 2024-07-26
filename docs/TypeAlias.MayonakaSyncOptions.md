@@ -1,8 +1,8 @@
-[**mayonaka**](../README.md) • **Docs**
+[**mayonaka**](README.md) • **Docs**
 
 ***
 
-[mayonaka](../globals.md) / MayonakaSyncOptions
+[mayonaka](README.md) / MayonakaSyncOptions
 
 # Type Alias: MayonakaSyncOptions
 
@@ -20,4 +20,4 @@
 
 ## Defined in
 
-[index.ts:14](https://github.com/ragrag/mayonaka/blob/a21e7ebab315bcbc9eab5cb5b0fc20e1590ca754/src/index.ts#L14)
+mayonaka-sync.ts:6

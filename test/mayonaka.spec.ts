@@ -23,7 +23,7 @@ describe('Mayonaka', () => {
     });
 
     it('should create directories and files correctly', async () => {
-        await new Mayonaka(testDir)
+        const res = await new Mayonaka(testDir)
             .addFolder('foo')
             .addFolder('bar', bar => {
                 bar.addFolder('qux', qux => {
@@ -63,6 +63,7 @@ describe('Mayonaka', () => {
             expect(bufferContent).toBe('mayonaka');
             expect(stringContent).toBe('mayonaka');
             expect(iterableContent).toBe('mayonaka');
+            expect(res.path).toBe(testDir);
         } catch (err) {
             throw new Error(`Test failed: ${err.message}`);
         }
@@ -79,7 +80,7 @@ describe('MayonakaSync', () => {
     });
 
     it('should create directories and files correctly', async () => {
-        new MayonakaSync(testDir)
+        const res = new MayonakaSync(testDir)
             .addFolder('foo')
             .addFolder('bar', bar => {
                 bar.addFolder('qux', qux => {
@@ -109,6 +110,7 @@ describe('MayonakaSync', () => {
 
             expect(bufferContent).toBe('mayonaka');
             expect(stringContent).toBe('mayonaka');
+            expect(res.path).toBe(testDir);
         } catch (err) {
             throw new Error(`Test failed: ${err.message}`);
         }

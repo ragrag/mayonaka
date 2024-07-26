@@ -1,6 +1,10 @@
-**mayonaka** • [**Docs**](globals.md)
+**mayonaka** • **Docs**
 
 ***
+
+**mayonaka** • **Docs**
+
+---
 
 <div align="center">
 
@@ -36,14 +40,18 @@ import { Mayonaka } from "mayonaka";
 import { Readable } from "node:stream";
 
 await new Mayonaka(__dirname)
-   // similar to fs.mkdir
+  // similar to fs.mkdir
   .addFolder("foo")
   .addFolder("bar", (bar) => {
     bar.addFolder("qux", (qux) => {
       qux
         .addFolder("quux")
-         // similar to fs.writeFile but data from an async source
-        .addFile("readable.txt",async () => Readable.from(["mayonaka"]), "utf-8")
+        // similar to fs.writeFile but data from an async source
+        .addFile(
+          "readable.txt",
+          async () => Readable.from(["mayonaka"]),
+          "utf-8"
+        )
         .addFile("buffer.txt", async () => Buffer.from("mayonaka"), "utf-8")
         .addFile("string.txt", async () => "mayonaka", "utf-8")
         .addFile("iterable.txt", async () => iterable(), "utf-8");
@@ -59,3 +67,33 @@ function* iterable() {
   }
 }
 ```
+
+## Classes
+
+- [Mayonaka](docs/Class.Mayonaka.md)
+- [MayonakaSync](docs/Class.MayonakaSync.md)
+
+## Type Aliases
+
+- [AddFileOptionss](docs/TypeAlias.AddFileOptionss.md)
+- [AddFolderOptions](docs/TypeAlias.AddFolderOptions.md)
+- [FileData](docs/TypeAlias.FileData.md)
+- [Folder](docs/TypeAlias.Folder.md)
+- [MayonakaOptions](docs/TypeAlias.MayonakaOptions.md)
+- [MayonakaSyncOptions](docs/TypeAlias.MayonakaSyncOptions.md)
+- [SyncFileData](docs/TypeAlias.SyncFileData.md)
+- [SyncFolder](docs/TypeAlias.SyncFolder.md)
+
+## Classes
+
+- [Mayonaka](Class.Mayonaka.md)
+- [MayonakaFolder](Class.MayonakaFolder.md)
+- [MayonakaSync](Class.MayonakaSync.md)
+- [MayonakaSyncfolder](Class.MayonakaSyncfolder.md)
+
+## Type Aliases
+
+- [FileData](TypeAlias.FileData.md)
+- [MayonakaOptions](TypeAlias.MayonakaOptions.md)
+- [MayonakaSyncOptions](TypeAlias.MayonakaSyncOptions.md)
+- [SyncFileData](TypeAlias.SyncFileData.md)

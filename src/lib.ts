@@ -1,5 +1,8 @@
+import type { MakeDirectoryOptions, WriteFileOptions } from 'node:fs';
+
 export type MayonakaSyncCommand<T> = () => T;
 
+// MayonakaCommand is a lazily evaluated promise that only gets executed when awaited
 export class MayonakaCommand<T> {
     executor: (resolve: (value: T) => void, reject: (reason?: any) => void) => void;
     promise: Promise<T> | null;
@@ -26,6 +29,9 @@ export class MayonakaCommand<T> {
         }
     }
 }
+
+export type AddFolderOptions = Omit<MakeDirectoryOptions, 'recursive'>;
+export type AddFileOptions = WriteFileOptions;
 
 export function chunk(arr: any[], size: number) {
     const result = [];

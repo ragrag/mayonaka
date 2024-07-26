@@ -1,8 +1,8 @@
-[**mayonaka**](../README.md) • **Docs**
+[**mayonaka**](README.md) • **Docs**
 
 ***
 
-[mayonaka](../globals.md) / MayonakaOptions
+[mayonaka](README.md) / MayonakaOptions
 
 # Type Alias: MayonakaOptions
 
@@ -24,4 +24,4 @@
 
 ## Defined in
 
-[index.ts:8](https://github.com/ragrag/mayonaka/blob/a21e7ebab315bcbc9eab5cb5b0fc20e1590ca754/src/index.ts#L8)
+mayonaka.ts:7
