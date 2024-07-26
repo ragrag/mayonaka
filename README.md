@@ -93,7 +93,7 @@ await new Mayonaka(__dirname, { maxConcurrency: 50 })
 import { MayonakaSync } from "mayonaka";
 
 // global access permissions
-await new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
+new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
   // local access permissions, overriding global permissions
   .addFolder("foo", { mode: 0o777 })
   .addFolder("bar", (bar) => {
