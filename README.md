@@ -79,7 +79,7 @@ await new Mayonaka(__dirname, { maxConcurrency: 50 })
   .addFolder("foo")
   .addFolder("bar", (bar) => {
     for (let i = 0; i < 1000; i++) {
-      bar.addFile(`${i}.txt`, async () => expensive(), "utf-8");
+      bar.addFile(`${i}.txt`, async () => expensive(i), "utf-8");
     }
   })
   .build();
