@@ -20,7 +20,7 @@
   "scripts": {
     "prepare": "tshy",
     "test": "vitest run test",
-    "docs:gen": "typedoc --plugin typedoc-plugin-markdown --out ./docs src/index.ts"
+    "docs:gen": "typedoc --plugin typedoc-plugin-markdown src/index.ts"
   },
   "license": "MIT",
   "devDependencies": {

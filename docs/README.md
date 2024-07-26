@@ -1,3 +1,7 @@
+**mayonaka** • [**Docs**](globals.md)
+
+***
+
 <div align="center">
 
 <img src="https://github.com/user-attachments/assets/1d00dcf1-f760-4741-bdfc-1af010a05b68" alt="aimer-after-dark" height="300">
@@ -32,18 +36,14 @@ import { Mayonaka } from "mayonaka";
 import { Readable } from "node:stream";
 
 await new Mayonaka(__dirname)
-  // similar to fs.mkdir
+   // similar to fs.mkdir
   .addFolder("foo")
   .addFolder("bar", (bar) => {
     bar.addFolder("qux", (qux) => {
       qux
         .addFolder("quux")
-        // similar to fs.writeFile but data from an async source
-        .addFile(
-          "readable.txt",
-          async () => Readable.from(["mayonaka"]),
-          "utf-8"
-        )
+         // similar to fs.writeFile but data from an async source
+        .addFile("readable.txt",async () => Readable.from(["mayonaka"]), "utf-8")
         .addFile("buffer.txt", async () => Buffer.from("mayonaka"), "utf-8")
         .addFile("string.txt", async () => "mayonaka", "utf-8")
         .addFile("iterable.txt", async () => iterable(), "utf-8");
@@ -59,5 +59,3 @@ function* iterable() {
   }
 }
 ```
-
-## [**Documentation**](docs/globals.md)
