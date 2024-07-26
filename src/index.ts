@@ -59,7 +59,8 @@ export class Mayonaka {
             this.commandGraph.push({ command, children });
         } else {
             const mode = folderOrOpts?.mode ?? this.opts.dirMode;
-            this.commandGraph.push({ command: this.mkDirCommand(folderPath, { mode }), children: [] });
+            const command = this.mkDirCommand(folderPath, { mode });
+            this.commandGraph.push({ command, children: [] });
         }
 
         return this;
@@ -162,7 +163,8 @@ export class MayonakaSync {
             this.commandGraph.push({ command, children });
         } else {
             const mode = folderOrOpts?.mode ?? this.opts.dirMode;
-            this.commandGraph.push({ command: this.mkDirCommand(folderPath, { mode }), children: [] });
+            const command = this.mkDirCommand(folderPath, { mode });
+            this.commandGraph.push({ command, children: [] });
         }
 
         return this;
