@@ -21,7 +21,7 @@
     "prepare": "tshy",
     "test": "vitest run test",
     "docs:gen": "typedoc src/index.ts",
-    "lint:fix": "biome check --write ./src biome.json",
+    "lint": "biome check --write ./src biome.json",
     "lint:ci": "biome ci ./src biome.json",
     "githooks:install": "lefthook install"
   },
