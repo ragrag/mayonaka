@@ -10,12 +10,7 @@
     "indentWidth": 4,
     "lineWidth": 160,
     "indentStyle": "space",
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts",
-      "test/*.spec.ts",
-      "test/**/*.spec.ts"
-    ],
+    "include": ["src/*.ts", "src/**/*.ts", "test/*.spec.ts", "test/**/*.spec.ts"],
     "ignore": ["dist", "node_modules"]
   },
   "javascript": {
@@ -41,12 +36,7 @@
         "noNonNullAssertion": "off"
       }
     },
-    "include": [
-      "src/*.ts",
-      "src/**/*.ts",
-      "test/*.spec.ts",
-      "test/**/*.spec.ts"
-    ],
+    "include": ["src/*.ts", "src/**/*.ts", "test/*.spec.ts", "test/**/*.spec.ts"],
     "ignore": ["dist", "node_modules"]
   }
 }
