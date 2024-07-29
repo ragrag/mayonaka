@@ -1,4 +1,4 @@
-name: Build & Test
+name: Build / Test / Lint
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  build-test-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source repository
@@ -33,3 +33,6 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Lint
+        run: pnpm lint
