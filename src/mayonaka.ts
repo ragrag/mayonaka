@@ -14,7 +14,7 @@ export type FileData = string | NodeJS.ArrayBufferView | Iterable<string | NodeJ
 
 type MayonakaCommandNode = { command: MayonakaCommand<void>; children: MayonakaCommandNode[] };
 
-class MayonakaFolder {
+export class MayonakaFolder {
     protected path: string;
     protected opts: MayonakaOptions;
     protected commandGraph: MayonakaCommandNode[];

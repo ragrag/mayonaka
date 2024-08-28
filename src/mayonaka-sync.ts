@@ -12,7 +12,7 @@ export type SyncFileData = string | NodeJS.ArrayBufferView;
 
 type MayonakaSyncCommandNode = { command: MayonakaSyncCommand<void>; children: MayonakaSyncCommandNode[] };
 
-class MayonakaSyncfolder {
+export class MayonakaSyncfolder {
     protected path: string;
     protected opts: MayonakaSyncOptions;
     protected commandGraph: MayonakaSyncCommandNode[];
