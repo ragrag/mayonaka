@@ -8,7 +8,7 @@ export type MayonakaSyncOptions = {
     fileMode?: Mode;
 };
 
-export type SyncFileData = string | NodeJS.ArrayBufferView;
+export type SyncFileData = string | NodeJS.ArrayBufferView | undefined | null;
 
 type MayonakaSyncCommandNode = { command: MayonakaSyncCommand<void>; children: MayonakaSyncCommandNode[] };
 
@@ -70,7 +70,9 @@ export class MayonakaSyncfolder {
     private writeFileCommand(path: string, data: () => SyncFileData, opts?: AddFileOptions): MayonakaSyncCommand<void> {
         return () => {
             const fileData = data();
-            writeFileSync(path, fileData, opts);
+            if (fileData) {
+                writeFileSync(path, fileData, opts);
+            }
         };
     }
 }

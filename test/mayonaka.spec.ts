@@ -1,7 +1,7 @@
-import { describe, it, beforeEach, afterEach, expect } from 'vitest';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { Readable } from 'node:stream';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { Mayonaka, MayonakaSync } from '../src/index.js';
 
 const testDir = path.join(__dirname, 'test-dir');
@@ -31,7 +31,9 @@ describe('Mayonaka', () => {
                         .addFile('readable.txt', async () => Readable.from(['mayonaka']), 'utf-8')
                         .addFile('buffer.txt', async () => Buffer.from('mayonaka'), 'utf-8')
                         .addFile('string.txt', async () => 'mayonaka', 'utf-8')
-                        .addFile('iterable.txt', async () => stringIterable(), 'utf-8');
+                        .addFile('iterable.txt', async () => stringIterable(), 'utf-8')
+                        .addFile('undefined.txt', async () => undefined, 'utf-8')
+                        .addFile('null.txt', async () => null, 'utf-8');
                 });
             })
             .addFolder('baz')
@@ -64,6 +66,12 @@ describe('Mayonaka', () => {
             expect(stringContent).toBe('mayonaka');
             expect(iterableContent).toBe('mayonaka');
             expect(res.path).toBe(testDir);
+
+            const undefinedPath = path.join(testDir, 'bar', 'qux', 'undefined.txt');
+            const nullPath = path.join(testDir, 'bar', 'qux', 'null.txt');
+
+            await expect(fs.access(undefinedPath)).rejects.toThrow();
+            await expect(fs.access(nullPath)).rejects.toThrow();
         } catch (err) {
             throw new Error(`Test failed: ${err.message}`);
         }

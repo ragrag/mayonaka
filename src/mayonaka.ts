@@ -10,7 +10,14 @@ export type MayonakaOptions = {
     maxConcurrency?: number;
 };
 
-export type FileData = string | NodeJS.ArrayBufferView | Iterable<string | NodeJS.ArrayBufferView> | AsyncIterable<string | NodeJS.ArrayBufferView> | Stream;
+export type FileData =
+    | string
+    | NodeJS.ArrayBufferView
+    | Iterable<string | NodeJS.ArrayBufferView>
+    | AsyncIterable<string | NodeJS.ArrayBufferView>
+    | Stream
+    | undefined
+    | null;
 
 type MayonakaCommandNode = { command: MayonakaCommand<void>; children: MayonakaCommandNode[] };
 
@@ -75,17 +82,13 @@ export class MayonakaFolder {
         });
     }
 
-    private writeFileCommand(
-        path: string,
-        data: () => Promise<
-            string | NodeJS.ArrayBufferView | Iterable<string | NodeJS.ArrayBufferView> | AsyncIterable<string | NodeJS.ArrayBufferView> | Stream
-        >,
-        opts?: AddFileOptions,
-    ): MayonakaCommand<void> {
+    private writeFileCommand(path: string, data: () => Promise<FileData>, opts?: AddFileOptions): MayonakaCommand<void> {
         return new MayonakaCommand(async (resolve, reject) => {
             try {
                 const fileData = await data();
-                await writeFile(path, fileData, opts);
+                if (fileData) {
+                    await writeFile(path, fileData, opts);
+                }
                 resolve();
             } catch (err) {
                 reject(err);
