@@ -1,7 +1,8 @@
-import type { Mode } from 'node:fs';
+import { type Mode, createReadStream, createWriteStream } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import type { Stream } from 'node:stream';
+import { Stream } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { type AddFileOptions, type AddFolderOptions, MayonakaCommand, chunk } from './lib.js';
 
 export type MayonakaOptions = {
@@ -86,9 +87,30 @@ export class MayonakaFolder {
         return new MayonakaCommand(async (resolve, reject) => {
             try {
                 const fileData = await data();
-                if (fileData) {
+                if (!fileData) {
+                    resolve();
+                    return;
+                }
+
+                if (fileData instanceof Stream.Readable) {
+                    const writeStream = createWriteStream(
+                        path,
+                        opts && typeof opts === 'string'
+                            ? {
+                                  encoding: opts,
+                              }
+                            : opts && typeof opts === 'object'
+                              ? {
+                                    flush: opts.flush,
+                                    signal: opts.signal,
+                                }
+                              : {},
+                    );
+                    await pipeline(fileData, writeStream);
+                } else {
                     await writeFile(path, fileData, opts);
                 }
+
                 resolve();
             } catch (err) {
                 reject(err);
