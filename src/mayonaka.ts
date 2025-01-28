@@ -103,6 +103,8 @@ export class MayonakaFolder {
                               ? {
                                     flush: opts.flush,
                                     signal: opts.signal,
+                                    flags: opts.flag,
+                                    mode: typeof opts.mode === 'string' ? +opts.mode : opts.mode,
                                 }
                               : {},
                     );
