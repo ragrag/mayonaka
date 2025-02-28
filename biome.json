@@ -2,7 +2,13 @@
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "organizeImports": {
     "enabled": true,
-    "ignore": ["coverage", "build", "dist", "node_modules", ".turbo"]
+    "ignore": [
+      "coverage",
+      "build",
+      "dist",
+      "node_modules",
+      ".turbo"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -10,8 +16,16 @@
     "indentWidth": 4,
     "lineWidth": 160,
     "indentStyle": "space",
-    "include": ["src/*.ts", "src/**/*.ts", "test/*.spec.ts", "test/**/*.spec.ts"],
-    "ignore": ["dist", "node_modules"]
+    "include": [
+      "./src/*.ts",
+      "./src/**/*.ts",
+      "./test/*.spec.ts",
+      "./test/**/*.spec.ts"
+    ],
+    "ignore": [
+      "dist",
+      "node_modules"
+    ]
   },
   "javascript": {
     "formatter": {
@@ -36,7 +50,15 @@
         "noNonNullAssertion": "off"
       }
     },
-    "include": ["src/*.ts", "src/**/*.ts", "test/*.spec.ts", "test/**/*.spec.ts"],
-    "ignore": ["dist", "node_modules"]
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts",
+      "test/*.spec.ts",
+      "test/**/*.spec.ts"
+    ],
+    "ignore": [
+      "dist",
+      "node_modules"
+    ]
   }
 }

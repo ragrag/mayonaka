@@ -102,3 +102,39 @@ new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
   .addFile("baz.txt", () => "baz", "utf-8", { mode: 0o777 })
   .build();
 ```
+
+#### Using MayonakaCustom with custom creation functions
+
+```typescript
+import { MayonakaCustom } from "mayonaka";
+
+
+type Folder = { name: string; children: (Folder | File)[] };
+type File = number;
+
+const structure = await new MayonakaCustom<Folder, File>(
+    // initial root or null
+    { name: 'root', children: [] },
+    // custom folder creation function
+    async (parentFolder, data) => {
+        const folder = { name: data.name, children: [] };
+        if (parentFolder) {
+            parentFolder.children.push(folder);
+        }
+        return folder;
+    },
+    // Custom file creation function
+    async (parentFolder, content) => {
+        if (parentFolder) {
+            parentFolder.children.push(content);
+        }
+    },
+)
+    .addFile(async () => 'readme.txt')
+    .addFolder({ name: 'docs' }, docs => {
+        docs.addFolder({ name: 'images' }, images => {
+            images.addFile(async () => 'photo.jpg');
+        });
+    })
+    .build();
+```
