@@ -18,7 +18,6 @@
     "file-builder"
   ],
   "scripts": {
-    "format": "biome format --write ./src",
     "prepare": "tshy",
     "test": "vitest run test",
     "docs:gen": "typedoc src/index.ts",
