@@ -130,10 +130,10 @@ const structure = await new MayonakaCustom<Folder, File>(
         }
     },
 )
-    .addFile(async () => 'readme.txt')
+    .addFile(async () => 1)
     .addFolder({ name: 'docs' }, docs => {
         docs.addFolder({ name: 'images' }, images => {
-            images.addFile(async () => 'photo.jpg');
+            images.addFile(async () => 2);
         });
     })
     .build();
