@@ -40,7 +40,7 @@ export class MayonakaFolder {
     public addFolder(name: string, folder: (folder: MayonakaFolder) => void, opts?: AddFolderOptions): this;
     public addFolder(name: string, opts?: AddFolderOptions): this;
     public addFolder(name: string, folderOrOpts?: ((folder: MayonakaFolder) => void) | AddFolderOptions, opts?: AddFolderOptions): this {
-        const folderPath = path.join(this.path, name);
+        const folderPath = path.join(this.path, name.replace(/[/\\]/g, '_'));
 
         if (typeof folderOrOpts === 'function') {
             const mode = opts?.mode ?? this.opts.dirMode;
@@ -61,7 +61,7 @@ export class MayonakaFolder {
     }
 
     public addFile(name: string, data: () => Promise<FileData>, opts?: AddFileOptions): this {
-        const filePath = path.join(this.path, name);
+        const filePath = path.join(this.path, name.replace(/[/\\]/g, '_'));
 
         if (opts && typeof opts === 'object') {
             opts.mode = opts.mode ?? this.opts.fileMode;

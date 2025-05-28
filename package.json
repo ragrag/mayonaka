@@ -1,6 +1,6 @@
 {
   "name": "mayonaka",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "ragrag https://github.com/ragrag",
   "description": "A fluent folder builder for javascript runtimes",
   "engines": {

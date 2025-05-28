@@ -29,7 +29,7 @@ export class MayonakaSyncfolder {
     public addFolder(name: string, folder: (folder: MayonakaSyncfolder) => void, opts?: AddFolderOptions): this;
     public addFolder(name: string, opts?: AddFolderOptions): this;
     public addFolder(name: string, folderOrOpts?: ((folder: MayonakaSyncfolder) => void) | AddFolderOptions, opts?: AddFolderOptions): this {
-        const folderPath = path.join(this.path, name);
+        const folderPath = path.join(this.path, name.replace(/[/\\]/g, '_'));
 
         if (typeof folderOrOpts === 'function') {
             const mode = opts?.mode ?? this.opts.dirMode;
@@ -50,7 +50,7 @@ export class MayonakaSyncfolder {
     }
 
     public addFile(name: string, data: () => SyncFileData, opts?: AddFileOptions): MayonakaSyncfolder {
-        const filePath = path.join(this.path, name);
+        const filePath = path.join(this.path, name.replace(/[/\\]/g, '_'));
 
         if (opts && typeof opts === 'object') {
             opts.mode = opts.mode ?? this.opts.fileMode;
