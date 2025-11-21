@@ -183,7 +183,7 @@ describe('MayonakaCustom', () => {
             db.files.set(id, record);
         };
 
-        const mayo = new MayonakaCustom<FolderRecord, FileRecord>(null, createFolderFn, createFileFn, { maxConcurrency: 2 });
+        const mayo = new MayonakaCustom(null, createFolderFn, createFileFn, { maxConcurrency: 2 });
 
         await mayo
             .addFolder({ name: 'Documents' }, documents => {
@@ -258,9 +258,9 @@ describe('MayonakaCustom', () => {
         type Folder = { name: string; children: (Folder | File)[] };
         type File = number;
 
-        const result = await new MayonakaCustom<Folder, File>(
+        const result = await new MayonakaCustom(
             rootFolder,
-            async (parentFolder, data) => {
+            async (parentFolder: Folder | null, data: { name: string }) => {
                 const folder = {
                     name: data?.name || 'root',
                     children: [],
@@ -271,7 +271,7 @@ describe('MayonakaCustom', () => {
                 }
                 return folder;
             },
-            async (parentFolder, item) => {
+            async (parentFolder: Folder | null, item: File) => {
                 if (parentFolder) {
                     parentFolder.children.push(item);
                 }
