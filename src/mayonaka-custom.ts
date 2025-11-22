@@ -1,14 +1,12 @@
-import { MayonakaCommand, chunk } from './lib.js';
+import { type AsyncCommand, type CommandNode, executeGraphAsync } from './lib.js';
 
 export type MayonakaCustomOptions = {
     maxConcurrency?: number;
 };
 
-type MayonakaCommandNode = { command: MayonakaCommand<void>; children: MayonakaCommandNode[] };
-
 export class MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> {
     protected opts: MayonakaCustomOptions;
-    protected commandGraph: MayonakaCommandNode[];
+    protected commandGraph: CommandNode<AsyncCommand>[];
     protected folder: TFolder | null = null;
     protected parentFolder: MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> | null = null;
 
@@ -26,44 +24,39 @@ export class MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> {
     public addFolder(data: TFolderData, callback: (folder: MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData>) => void): this {
         const subFolder = new MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData>(this.createFolderFn, this.createFileFn);
         subFolder.parentFolder = this;
-        const command = this.mkDirCommand(data, subFolder);
+
+        const command = this.createMkDirCommand(data, subFolder);
         callback(subFolder);
-        const children = subFolder.commandGraph;
-        this.commandGraph.push({ command, children });
+
+        this.commandGraph.push({ command, children: subFolder.commandGraph });
         return this;
     }
 
     public addFile(dataProvider: () => Promise<TFileData>): this {
-        this.commandGraph.push({ command: this.writeFileCommand(dataProvider), children: [] });
+        this.commandGraph.push({
+            command: this.createWriteFileCommand(dataProvider),
+            children: [],
+        });
         return this;
     }
 
-    private mkDirCommand(data: TFolderData, targetFolder: MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData>): MayonakaCommand<void> {
-        return new MayonakaCommand(async (resolve, reject) => {
-            try {
-                const parentFolderData = targetFolder.parentFolder ? targetFolder.parentFolder.folder : null;
-                targetFolder.folder = await this.createFolderFn(parentFolderData, data);
-                resolve();
-            } catch (err) {
-                reject(err);
-            }
-        });
+    private createMkDirCommand(data: TFolderData, targetFolder: MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData>): AsyncCommand {
+        return async () => {
+            const parentFolderData = targetFolder.parentFolder ? targetFolder.parentFolder.folder : null;
+            targetFolder.folder = await this.createFolderFn(parentFolderData, data);
+        };
     }
 
-    private writeFileCommand(dataProvider: () => Promise<any>): MayonakaCommand<void> {
-        return new MayonakaCommand(async (resolve, reject) => {
-            try {
-                const fileData = await dataProvider();
-                await this.createFileFn(this.folder, fileData);
-                resolve();
-            } catch (err) {
-                reject(err);
-            }
-        });
+    private createWriteFileCommand(dataProvider: () => Promise<TFileData>): AsyncCommand {
+        return async () => {
+            const fileData = await dataProvider();
+            await this.createFileFn(this.folder, fileData);
+        };
     }
 }
 
-export class MayonakaCustom<TFolder, TFile, TFolderData, TFileData> extends MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> {
+// Main MayonakaCustom class with build method
+export class MayonakaCustom<TFolder, TFile, TFolderData = any, TFileData = any> extends MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> {
     constructor(
         root: TFolder | null,
         createFolderFn: (parentFolder: TFolder | null, data: TFolderData) => Promise<TFolder>,
@@ -77,25 +70,8 @@ export class MayonakaCustom<TFolder, TFile, TFolderData, TFileData> extends Mayo
     }
 
     public async build(): Promise<TFolder | null> {
-        let queue = [...this.commandGraph];
-        while (queue.length) {
-            const currentLevel = [];
-            const nextLevel = [];
-            for (let i = 0; i < queue.length; i++) {
-                currentLevel.push(queue[i]!.command);
-                nextLevel.push(...queue[i]!.children);
-            }
-            if (this.opts.maxConcurrency) {
-                for (const commandChunk of chunk(currentLevel, this.opts.maxConcurrency)) {
-                    await Promise.all(commandChunk);
-                }
-            } else {
-                await Promise.all(currentLevel);
-            }
-            queue = nextLevel;
-        }
+        await executeGraphAsync(this.commandGraph, this.opts.maxConcurrency);
         this.commandGraph = [];
-
         return this.folder;
     }
 }

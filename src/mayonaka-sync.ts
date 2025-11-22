@@ -1,7 +1,7 @@
 import type { Mode } from 'node:fs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import type { AddFileOptions, AddFolderOptions, MayonakaSyncCommand } from './lib.js';
+import { type AddFileOptions, type AddFolderOptions, type CommandNode, type SyncCommand, executeGraphSync } from './lib.js';
 
 export type MayonakaSyncOptions = {
     dirMode?: Mode;
@@ -10,12 +10,10 @@ export type MayonakaSyncOptions = {
 
 export type SyncFileData = string | NodeJS.ArrayBufferView | undefined | null;
 
-type MayonakaSyncCommandNode = { command: MayonakaSyncCommand<void>; children: MayonakaSyncCommandNode[] };
-
 export class MayonakaSyncfolder {
     protected path: string;
     protected opts: MayonakaSyncOptions;
-    protected commandGraph: MayonakaSyncCommandNode[];
+    protected commandGraph: CommandNode<SyncCommand>[];
 
     constructor(path: string, opts?: MayonakaSyncOptions) {
         this.path = path;
@@ -33,7 +31,7 @@ export class MayonakaSyncfolder {
 
         if (typeof folderOrOpts === 'function') {
             const mode = opts?.mode ?? this.opts.dirMode;
-            const command = this.mkDirCommand(folderPath, { mode });
+            const command = this.createMkDirCommand(folderPath, { mode });
 
             const subFolder = new MayonakaSyncfolder(folderPath, this.opts);
             folderOrOpts(subFolder);
@@ -42,36 +40,39 @@ export class MayonakaSyncfolder {
             this.commandGraph.push({ command, children });
         } else {
             const mode = folderOrOpts?.mode ?? this.opts.dirMode;
-            const command = this.mkDirCommand(folderPath, { mode });
+            const command = this.createMkDirCommand(folderPath, { mode });
             this.commandGraph.push({ command, children: [] });
         }
 
-        return this as any;
+        return this;
     }
 
-    public addFile(name: string, data: () => SyncFileData, opts?: AddFileOptions): MayonakaSyncfolder {
+    public addFile(name: string, data: () => SyncFileData, opts?: AddFileOptions): this {
         const filePath = path.join(this.path, name.replace(/[/\\]/g, '_'));
 
         if (opts && typeof opts === 'object') {
             opts.mode = opts.mode ?? this.opts.fileMode;
         }
 
-        this.commandGraph.push({ command: this.writeFileCommand(filePath, data, opts), children: [] });
+        this.commandGraph.push({
+            command: this.createWriteFileCommand(filePath, data, opts),
+            children: [],
+        });
 
-        return this as any;
+        return this;
     }
 
-    private mkDirCommand(path: string, opts?: AddFolderOptions): MayonakaSyncCommand<void> {
+    private createMkDirCommand(dirPath: string, opts?: AddFolderOptions): SyncCommand {
         return () => {
-            mkdirSync(path, { recursive: true, mode: opts?.mode });
+            mkdirSync(dirPath, { recursive: true, mode: opts?.mode });
         };
     }
 
-    private writeFileCommand(path: string, data: () => SyncFileData, opts?: AddFileOptions): MayonakaSyncCommand<void> {
+    private createWriteFileCommand(filePath: string, data: () => SyncFileData, opts?: AddFileOptions): SyncCommand {
         return () => {
             const fileData = data();
             if (fileData) {
-                writeFileSync(path, fileData, opts);
+                writeFileSync(filePath, fileData, opts);
             }
         };
     }
@@ -79,20 +80,8 @@ export class MayonakaSyncfolder {
 
 export class MayonakaSync extends MayonakaSyncfolder {
     public build() {
-        let queue = [...this.commandGraph];
-
-        while (queue.length) {
-            const nextLevel = [];
-            for (let i = 0; i < queue.length; i++) {
-                queue[i]!.command();
-                nextLevel.push(...queue[i]!.children);
-            }
-
-            queue = nextLevel;
-        }
-
+        executeGraphSync(this.commandGraph);
         this.commandGraph = [];
-
         return { path: this.path };
     }
 }

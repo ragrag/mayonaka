@@ -1,9 +1,7 @@
-import type { MayonakaSyncCommand } from './lib.js';
-
-type MayonakaCustomSyncCommandNode = { command: MayonakaSyncCommand<void>; children: MayonakaCustomSyncCommandNode[] };
+import { type CommandNode, type SyncCommand, executeGraphSync } from './lib.js';
 
 export class MayonakaCustomFolderSync<TFolder, TFile> {
-    protected commandGraph: MayonakaCustomSyncCommandNode[];
+    protected commandGraph: CommandNode<SyncCommand>[];
     protected folder: TFolder | null = null;
     protected parentFolder: MayonakaCustomFolderSync<TFolder, TFile> | null = null;
 
@@ -17,26 +15,30 @@ export class MayonakaCustomFolderSync<TFolder, TFile> {
     public addFolder(data: any, callback: (folder: MayonakaCustomFolderSync<TFolder, TFile>) => void): this {
         const subFolder = new MayonakaCustomFolderSync<TFolder, TFile>(this.createFolderFn, this.createFileFn);
         subFolder.parentFolder = this;
-        const command = this.mkDirCommand(data, subFolder);
+
+        const command = this.createMkDirCommand(data, subFolder);
         callback(subFolder);
-        const children = subFolder.commandGraph;
-        this.commandGraph.push({ command, children });
+
+        this.commandGraph.push({ command, children: subFolder.commandGraph });
         return this;
     }
 
     public addFile(dataProvider: () => TFile): this {
-        this.commandGraph.push({ command: this.writeFileCommand(dataProvider), children: [] });
+        this.commandGraph.push({
+            command: this.createWriteFileCommand(dataProvider),
+            children: [],
+        });
         return this;
     }
 
-    private mkDirCommand(data: any, targetFolder: MayonakaCustomFolderSync<TFolder, TFile>): MayonakaSyncCommand<void> {
+    private createMkDirCommand(data: any, targetFolder: MayonakaCustomFolderSync<TFolder, TFile>): SyncCommand {
         return () => {
             const parentFolderData = targetFolder.parentFolder ? targetFolder.parentFolder.folder : null;
             targetFolder.folder = this.createFolderFn(parentFolderData, data);
         };
     }
 
-    private writeFileCommand(dataProvider: () => TFile): MayonakaSyncCommand<void> {
+    private createWriteFileCommand(dataProvider: () => TFile): SyncCommand {
         return () => {
             const fileData = dataProvider();
             this.createFileFn(this.folder, fileData);
@@ -57,20 +59,8 @@ export class MayonakaCustomSync<TFolder, TFile> extends MayonakaCustomFolderSync
     }
 
     public build(): TFolder | null {
-        let queue = [...this.commandGraph];
-
-        while (queue.length) {
-            const nextLevel = [];
-            for (let i = 0; i < queue.length; i++) {
-                queue[i]!.command();
-                nextLevel.push(...queue[i]!.children);
-            }
-
-            queue = nextLevel;
-        }
-
+        executeGraphSync(this.commandGraph);
         this.commandGraph = [];
-
         return this.folder;
     }
 }

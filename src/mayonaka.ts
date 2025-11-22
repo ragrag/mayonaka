@@ -1,9 +1,9 @@
-import { type Mode, createReadStream, createWriteStream } from 'node:fs';
+import { type Mode, createWriteStream } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Stream } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { type AddFileOptions, type AddFolderOptions, MayonakaCommand, chunk } from './lib.js';
+import { type AddFileOptions, type AddFolderOptions, type AsyncCommand, type CommandNode, executeGraphAsync } from './lib.js';
 
 export type MayonakaOptions = {
     dirMode?: Mode;
@@ -20,12 +20,10 @@ export type FileData =
     | undefined
     | null;
 
-type MayonakaCommandNode = { command: MayonakaCommand<void>; children: MayonakaCommandNode[] };
-
 export class MayonakaFolder {
     protected path: string;
     protected opts: MayonakaOptions;
-    protected commandGraph: MayonakaCommandNode[];
+    protected commandGraph: CommandNode<AsyncCommand>[];
 
     constructor(path: string, opts?: MayonakaOptions) {
         this.path = path;
@@ -44,7 +42,7 @@ export class MayonakaFolder {
 
         if (typeof folderOrOpts === 'function') {
             const mode = opts?.mode ?? this.opts.dirMode;
-            const command = this.mkDirCommand(folderPath, { mode });
+            const command = this.createMkDirCommand(folderPath, { mode });
 
             const subFolder = new MayonakaFolder(folderPath, this.opts);
             folderOrOpts(subFolder);
@@ -53,7 +51,7 @@ export class MayonakaFolder {
             this.commandGraph.push({ command, children });
         } else {
             const mode = folderOrOpts?.mode ?? this.opts.dirMode;
-            const command = this.mkDirCommand(folderPath, { mode });
+            const command = this.createMkDirCommand(folderPath, { mode });
             this.commandGraph.push({ command, children: [] });
         }
 
@@ -67,81 +65,53 @@ export class MayonakaFolder {
             opts.mode = opts.mode ?? this.opts.fileMode;
         }
 
-        this.commandGraph.push({ command: this.writeFileCommand(filePath, data, opts), children: [] });
+        this.commandGraph.push({
+            command: this.createWriteFileCommand(filePath, data, opts),
+            children: [],
+        });
 
         return this;
     }
 
-    private mkDirCommand(path: string, opts?: AddFolderOptions): MayonakaCommand<void> {
-        return new MayonakaCommand(async (resolve, reject) => {
-            try {
-                await mkdir(path, { recursive: true, mode: opts?.mode ?? this.opts.dirMode });
-                resolve();
-            } catch (err) {
-                reject(err);
-            }
-        });
+    private createMkDirCommand(dirPath: string, opts?: AddFolderOptions): AsyncCommand {
+        return async () => {
+            await mkdir(dirPath, { recursive: true, mode: opts?.mode ?? this.opts.dirMode });
+        };
     }
 
-    private writeFileCommand(path: string, data: () => Promise<FileData>, opts?: AddFileOptions): MayonakaCommand<void> {
-        return new MayonakaCommand(async (resolve, reject) => {
-            try {
-                const fileData = await data();
-                if (!fileData) {
-                    resolve();
-                    return;
-                }
-
-                if (fileData instanceof Stream.Readable) {
-                    const writeStream = createWriteStream(
-                        path,
-                        opts && typeof opts === 'string'
-                            ? {
-                                  encoding: opts,
-                              }
-                            : opts && typeof opts === 'object'
-                              ? {
-                                    flush: opts.flush,
-                                    signal: opts.signal,
-                                    flags: opts.flag,
-                                    mode: typeof opts.mode === 'string' ? +opts.mode : opts.mode,
-                                }
-                              : {},
-                    );
-                    await pipeline(fileData, writeStream);
-                } else {
-                    await writeFile(path, fileData, opts);
-                }
-
-                resolve();
-            } catch (err) {
-                reject(err);
+    private createWriteFileCommand(filePath: string, data: () => Promise<FileData>, opts?: AddFileOptions): AsyncCommand {
+        return async () => {
+            const fileData = await data();
+            if (!fileData) {
+                return;
             }
-        });
+
+            if (fileData instanceof Stream.Readable) {
+                const writeStream = createWriteStream(
+                    filePath,
+                    opts && typeof opts === 'string'
+                        ? { encoding: opts }
+                        : opts && typeof opts === 'object'
+                          ? {
+                                flush: opts.flush,
+                                signal: opts.signal,
+                                flags: opts.flag,
+                                mode: typeof opts.mode === 'string' ? +opts.mode : opts.mode,
+                            }
+                          : {},
+                );
+                await pipeline(fileData, writeStream);
+            } else {
+                await writeFile(filePath, fileData, opts);
+            }
+        };
     }
 }
 
 export class Mayonaka extends MayonakaFolder {
     public async build() {
-        let queue = [...this.commandGraph];
-        while (queue.length) {
-            const currentLevel = [];
-            const nextLevel = [];
-            for (let i = 0; i < queue.length; i++) {
-                currentLevel.push(queue[i]!.command);
-                nextLevel.push(...queue[i]!.children);
-            }
-            if (this.opts.maxConcurrency) {
-                for (const commandChunk of chunk(currentLevel, this.opts.maxConcurrency)) {
-                    await Promise.all(commandChunk);
-                }
-            } else {
-                await Promise.all(currentLevel);
-            }
-            queue = nextLevel;
-        }
+        await executeGraphAsync(this.commandGraph, this.opts.maxConcurrency);
         this.commandGraph = [];
-
         return { path: this.path };
     }
 }

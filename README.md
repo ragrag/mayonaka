@@ -29,7 +29,6 @@ npm install mayonaka
 │   └── qux
 │       ├── quux
 │       ├── readable.txt
-│       ├── buffer.txt
 │       ├── string.txt
 │       └── iterable.txt
 └── baz
@@ -52,7 +51,6 @@ await new Mayonaka(__dirname)
           async () => Readable.from(["mayonaka"]),
           "utf-8"
         )
-        .addFile("buffer.txt", async () => Buffer.from("mayonaka"), "utf-8")
         .addFile("string.txt", async () => "mayonaka", "utf-8")
         .addFile("iterable.txt", async () => iterable(), "utf-8");
     });
