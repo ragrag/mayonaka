@@ -105,34 +105,49 @@ new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
 
 ```typescript
 import { MayonakaCustom } from "mayonaka";
+import BoxSDK from 'box-node-sdk';
 
+const sdk = new BoxSDK({
+    clientID: 'your_client_id',
+    clientSecret: 'your_client_secret'
+});
+const client = sdk.getBasicClient('user_access_token');
 
-type Folder = { name: string; children: (Folder | File)[] };
-type File = number;
+type BoxFolder = {
+    id: string;
+    name: string;
+};
 
-const structure = await new MayonakaCustom<Folder, File>(
-    // initial root or null
-    { name: 'root', children: [] },
-    // custom folder creation function
-    async (parentFolder, data) => {
-        const folder = { name: data.name, children: [] };
-        if (parentFolder) {
-            parentFolder.children.push(folder);
-        }
-        return folder;
+type BoxFile = {
+    id: string;
+    name: string;
+};
+
+const structure = await new MayonakaCustom<BoxFolder, BoxFile>(
+    { id: '0', name: 'root' },
+    async (parent, data: { name: string }) => {
+        const folder = await client.folders.create(parent.id, data.name);
+        return { id: folder.id, name: folder.name };
     },
-    // Custom file creation function
-    async (parentFolder, content) => {
-        if (parentFolder) {
-            parentFolder.children.push(content);
-        }
-    },
-)
-    .addFile(async () => 1)
-    .addFolder({ name: 'docs' }, docs => {
-        docs.addFolder({ name: 'images' }, images => {
-            images.addFile(async () => 2);
-        });
-    })
-    .build();
+    async (parent, fileData: { name: string; content: Buffer }) => {
+        const file = await client.files.uploadFile(
+            parent.id,
+            fileData.name,
+            fileData.content
+        );
+        return { id: file.entries[0].id, name: file.entries[0].name };
+})
+.addFolder({ name: 'Documents' }, docs => {
+    docs.addFile(async () => ({
+        name: 'report.pdf',
+        content: Buffer.from('PDF content here')
+    }));
+})
+.addFolder({ name: 'Images' }, images => {
+    images.addFile(async () => ({
+        name: 'photo.jpg',
+        content: Buffer.from('JPEG data')
+    }));
+})
+.build();
 ```
