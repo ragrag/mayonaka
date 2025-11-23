@@ -137,17 +137,22 @@ const structure = await new MayonakaCustom<BoxFolder, BoxFile>(
         );
         return { id: file.entries[0].id, name: file.entries[0].name };
 })
-.addFolder({ name: 'Documents' }, docs => {
-    docs.addFile(async () => ({
+.addFolder({ name: 'Documents' }, docsFolder => {
+    docsFolder.addFile(async () => ({
         name: 'report.pdf',
         content: Buffer.from('PDF content here')
     }));
 })
-.addFolder({ name: 'Images' }, images => {
-    images.addFile(async () => ({
-        name: 'photo.jpg',
-        content: Buffer.from('JPEG data')
-    }));
+.addFolder({ name: 'Images' }, imagesFolder => {
+    for (const img of images){
+      imagesFolder.addFile(async () => {
+        const content = await getImgBuffer(img.url);
+        return {
+          name: img.name,
+          content: content
+        };
+      });
+    }
 })
 .build();
 ```
