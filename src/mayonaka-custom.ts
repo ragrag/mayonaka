@@ -55,7 +55,6 @@ export class MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> {
     }
 }
 
-// Main MayonakaCustom class with build method
 export class MayonakaCustom<TFolder, TFile, TFolderData = any, TFileData = any> extends MayonakaCustomFolder<TFolder, TFile, TFolderData, TFileData> {
     constructor(
         root: TFolder | null,
