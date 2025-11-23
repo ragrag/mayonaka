@@ -108,10 +108,10 @@ import { MayonakaCustom } from "mayonaka";
 import BoxSDK from 'box-node-sdk';
 
 const sdk = new BoxSDK({
-    clientID: 'your_client_id',
-    clientSecret: 'your_client_secret'
+    clientID: '...',
+    clientSecret: '...'
 });
-const client = sdk.getBasicClient('user_access_token');
+const client = sdk.getBasicClient('...');
 
 type BoxFolder = {
     id: string;
