@@ -107,6 +107,8 @@ new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
 import { MayonakaCustom } from "mayonaka";
 import BoxSDK from 'box-node-sdk';
 
+const BOX_MAX_CONCURRENT_REQUESTS = 10;
+
 const sdk = new BoxSDK({
     clientID: '...',
     clientSecret: '...'
@@ -136,7 +138,9 @@ const structure = await new MayonakaCustom<BoxFolder, BoxFile>(
             fileData.content
         );
         return { id: file.entries[0].id, name: file.entries[0].name };
-})
+    },
+    { maxConcurrency: BOX_MAX_CONCURRENT_REQUESTS }
+)
 .addFolder({ name: 'Documents' }, docsFolder => {
     docsFolder.addFile(async () => ({
         name: 'report.pdf',
@@ -145,13 +149,10 @@ const structure = await new MayonakaCustom<BoxFolder, BoxFile>(
 })
 .addFolder({ name: 'Images' }, imagesFolder => {
     for (const img of images){
-      imagesFolder.addFile(async () => {
-        const content = await getImgBuffer(img.url);
-        return {
+      imagesFolder.addFile(async () => ({
           name: img.name,
-          content: content
-        };
-      });
+          content: img.content
+      }));
     }
 })
 .build();
