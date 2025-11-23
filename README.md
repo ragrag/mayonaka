@@ -107,14 +107,6 @@ new MayonakaSync(__dirname, { dirMode: 0o744, fileMode: 0o766 })
 import { MayonakaCustom } from "mayonaka";
 import BoxSDK from 'box-node-sdk';
 
-const BOX_MAX_CONCURRENT_REQUESTS = 10;
-
-const sdk = new BoxSDK({
-    clientID: '...',
-    clientSecret: '...'
-});
-const client = sdk.getBasicClient('...');
-
 type BoxFolder = {
     id: string;
     name: string;
@@ -125,7 +117,15 @@ type BoxFile = {
     name: string;
 };
 
-const structure = await new MayonakaCustom<BoxFolder, BoxFile>(
+const BOX_MAX_CONCURRENT_REQUESTS = 10;
+
+const sdk = new BoxSDK({
+    clientID: '...',
+    clientSecret: '...'
+});
+const client = sdk.getBasicClient('...');
+
+await new MayonakaCustom<BoxFolder, BoxFile>(
     { id: '0', name: 'root' },
     async (parent, data: { name: string }) => {
         const folder = await client.folders.create(parent.id, data.name);
